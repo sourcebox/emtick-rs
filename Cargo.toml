@@ -1,0 +1,10 @@
+[package]
+name = "emtick"
+version = "0.1.0"
+edition = "2021"
+authors = ["Oliver Rockstedt <info@sourcebox.de>"]
+description = "Tick based instant and duration types for embedded systems."
+repository = "https://github.com/sourcebox/emtick-rs"
+license = "MIT"
+keywords = ["time", "instant", "duration", "clock"]
+categories = ["no-std", "embedded", "date-and-time"]
