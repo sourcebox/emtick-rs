@@ -5,7 +5,7 @@
 use core::marker::PhantomData;
 use core::ops::{Add, AddAssign, Sub, SubAssign};
 
-use crate::{ClockTick, Duration};
+use crate::{conv, ClockTick, Duration};
 
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Instant<C>
@@ -49,49 +49,24 @@ where
 
     /// Create an instant from a microseconds count since boot.
     pub fn from_micros(micros: u64) -> Self {
-        let tps = C::ticks_per_second();
-        let ticks = if tps == 1000000 {
-            micros
-        } else {
-            micros
-                .checked_mul(tps)
-                .expect("Overflow when converting from microseconds.")
-                / 1000000
-        };
         Self {
-            ticks,
+            ticks: conv::micros_to_ticks(micros, C::ticks_per_second()),
             clock: PhantomData,
         }
     }
 
     /// Create an instant from a milliseconds count since boot.
     pub fn from_millis(millis: u64) -> Self {
-        let tps = C::ticks_per_second();
-        let ticks = if tps == 1000 {
-            millis
-        } else {
-            millis
-                .checked_mul(tps)
-                .expect("Overflow when converting from milliseconds.")
-                / 1000
-        };
         Self {
-            ticks,
+            ticks: conv::millis_to_ticks(millis, C::ticks_per_second()),
             clock: PhantomData,
         }
     }
 
     /// Create an instant from a seconds count since boot.
     pub fn from_secs(secs: u64) -> Self {
-        let tps = C::ticks_per_second();
-        let ticks = if tps == 1 {
-            secs
-        } else {
-            secs.checked_mul(tps)
-                .expect("Overflow when converting from seconds.")
-        };
         Self {
-            ticks,
+            ticks: conv::secs_to_ticks(secs, C::ticks_per_second()),
             clock: PhantomData,
         }
     }
@@ -103,33 +78,17 @@ where
 
     /// Return microseconds count since boot.
     pub fn to_micros(&self) -> u64 {
-        let tps = C::ticks_per_second();
-        if tps == 1000000 {
-            self.ticks
-        } else {
-            self.ticks
-                .checked_mul(1000000)
-                .expect("Overflow when converting to microseconds.")
-                / tps
-        }
+        conv::ticks_to_micros(self.ticks, C::ticks_per_second())
     }
 
     /// Return milliseconds count since boot.
     pub fn to_millis(&self) -> u64 {
-        let tps = C::ticks_per_second();
-        if tps == 1000 {
-            self.ticks
-        } else {
-            self.ticks
-                .checked_mul(1000)
-                .expect("Overflow when converting to milliseconds.")
-                / tps
-        }
+        conv::ticks_to_millis(self.ticks, C::ticks_per_second())
     }
 
     /// Return seconds count since boot.
     pub fn to_secs(&self) -> u64 {
-        self.ticks / C::ticks_per_second()
+        conv::ticks_to_secs(self.ticks, C::ticks_per_second())
     }
 
     /// Return duration between current instant and an earlier one.

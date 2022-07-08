@@ -5,7 +5,7 @@
 use core::marker::PhantomData;
 use core::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Sub, SubAssign};
 
-use crate::ClockTick;
+use crate::{conv, ClockTick};
 
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Duration<C>
@@ -41,49 +41,24 @@ where
 
     /// Create a duration from a microseconds count.
     pub fn from_micros(micros: u64) -> Self {
-        let tps = C::ticks_per_second();
-        let ticks = if tps == 1000000 {
-            micros
-        } else {
-            micros
-                .checked_mul(tps)
-                .expect("Overflow when converting from microseconds.")
-                / 1000000
-        };
         Self {
-            ticks,
+            ticks: conv::micros_to_ticks(micros, C::ticks_per_second()),
             clock: PhantomData,
         }
     }
 
     /// Create a duration from a milliseconds count.
     pub fn from_millis(millis: u64) -> Self {
-        let tps = C::ticks_per_second();
-        let ticks = if tps == 1000 {
-            millis
-        } else {
-            millis
-                .checked_mul(tps)
-                .expect("Overflow when converting from milliseconds.")
-                / 1000
-        };
         Self {
-            ticks,
+            ticks: conv::millis_to_ticks(millis, C::ticks_per_second()),
             clock: PhantomData,
         }
     }
 
     /// Create a duration from a seconds count.
     pub fn from_secs(secs: u64) -> Self {
-        let tps = C::ticks_per_second();
-        let ticks = if tps == 1 {
-            secs
-        } else {
-            secs.checked_mul(tps)
-                .expect("Overflow when converting from seconds.")
-        };
         Self {
-            ticks,
+            ticks: conv::secs_to_ticks(secs, C::ticks_per_second()),
             clock: PhantomData,
         }
     }

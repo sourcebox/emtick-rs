@@ -1,6 +1,7 @@
 #![doc = include_str!("../README.md")]
 #![no_std]
 
+pub mod conv;
 pub mod delay;
 pub mod duration;
 pub mod instant;
