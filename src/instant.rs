@@ -76,7 +76,7 @@ where
         }
     }
 
-    /// Create an instant from a microseconds count since boot.
+    /// Create an instant from a microseconds count since boot. Panics on overflow.
     pub fn from_micros(micros: u64) -> Self {
         Self {
             ticks: conv::micros_to_ticks(micros, C::ticks_per_second()),
@@ -84,7 +84,7 @@ where
         }
     }
 
-    /// Create an instant from a milliseconds count since boot.
+    /// Create an instant from a milliseconds count since boot. Panics on overflow.
     pub fn from_millis(millis: u64) -> Self {
         Self {
             ticks: conv::millis_to_ticks(millis, C::ticks_per_second()),
@@ -92,7 +92,7 @@ where
         }
     }
 
-    /// Create an instant from a seconds count since boot.
+    /// Create an instant from a seconds count since boot. Panics on overflow.
     pub fn from_secs(secs: u64) -> Self {
         Self {
             ticks: conv::secs_to_ticks(secs, C::ticks_per_second()),
@@ -105,12 +105,12 @@ where
         self.ticks
     }
 
-    /// Return microseconds count since boot.
+    /// Return microseconds count since boot. Panics on overflow.
     pub fn to_micros(&self) -> u64 {
         conv::ticks_to_micros(self.ticks, C::ticks_per_second())
     }
 
-    /// Return milliseconds count since boot.
+    /// Return milliseconds count since boot. Panics on overflow.
     pub fn to_millis(&self) -> u64 {
         conv::ticks_to_millis(self.ticks, C::ticks_per_second())
     }

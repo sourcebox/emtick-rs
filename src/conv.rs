@@ -1,6 +1,6 @@
 //! Functions for conversions between ticks and natural time units.
 
-/// Convert microseconds to ticks.
+/// Convert microseconds to ticks. Panics on overflow.
 pub fn micros_to_ticks(micros: u64, ticks_per_second: u64) -> u64 {
     if ticks_per_second == 1000000 {
         micros
@@ -12,7 +12,7 @@ pub fn micros_to_ticks(micros: u64, ticks_per_second: u64) -> u64 {
     }
 }
 
-/// Convert milliseconds to ticks.
+/// Convert milliseconds to ticks. Panics on overflow.
 pub fn millis_to_ticks(millis: u64, ticks_per_second: u64) -> u64 {
     if ticks_per_second == 1000 {
         millis
@@ -24,7 +24,7 @@ pub fn millis_to_ticks(millis: u64, ticks_per_second: u64) -> u64 {
     }
 }
 
-/// Convert seconds to ticks.
+/// Convert seconds to ticks. Panics on overflow.
 pub fn secs_to_ticks(secs: u64, ticks_per_second: u64) -> u64 {
     if ticks_per_second == 1 {
         secs
@@ -34,7 +34,7 @@ pub fn secs_to_ticks(secs: u64, ticks_per_second: u64) -> u64 {
     }
 }
 
-/// Convert ticks to microseconds.
+/// Convert ticks to microseconds. Panics on overflow.
 pub fn ticks_to_micros(ticks: u64, ticks_per_second: u64) -> u64 {
     if ticks_per_second == 1000000 {
         ticks
@@ -46,7 +46,7 @@ pub fn ticks_to_micros(ticks: u64, ticks_per_second: u64) -> u64 {
     }
 }
 
-/// Convert ticks to milliseconds.
+/// Convert ticks to milliseconds. Panics on overflow.
 pub fn ticks_to_millis(ticks: u64, ticks_per_second: u64) -> u64 {
     if ticks_per_second == 1000 {
         ticks
