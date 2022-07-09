@@ -7,7 +7,7 @@ use core::ops::{Add, AddAssign, Sub, SubAssign};
 
 use crate::{conv, ClockTick, Duration};
 
-#[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Debug)]
 pub struct Instant<C>
 where
     C: ClockTick,
@@ -24,6 +24,35 @@ where
 {
     fn clone(&self) -> Self {
         *self
+    }
+}
+
+impl<C> PartialEq for Instant<C>
+where
+    C: ClockTick,
+{
+    fn eq(&self, other: &Self) -> bool {
+        self.ticks == other.ticks
+    }
+}
+
+impl<C> Eq for Instant<C> where C: ClockTick {}
+
+impl<C> PartialOrd for Instant<C>
+where
+    C: ClockTick,
+{
+    fn partial_cmp(&self, other: &Self) -> Option<core::cmp::Ordering> {
+        Some(self.cmp(other))
+    }
+}
+
+impl<C> Ord for Instant<C>
+where
+    C: ClockTick,
+{
+    fn cmp(&self, other: &Self) -> core::cmp::Ordering {
+        self.ticks.cmp(&other.ticks)
     }
 }
 
