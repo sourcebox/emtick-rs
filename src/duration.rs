@@ -62,7 +62,7 @@ where
     C: ClockTick,
 {
     /// Create a duration from a ticks count.
-    pub fn from_ticks(ticks: u64) -> Self {
+    pub const fn from_ticks(ticks: u64) -> Self {
         Self {
             ticks,
             clock: PhantomData,
@@ -70,47 +70,47 @@ where
     }
 
     /// Create a duration from a microseconds count.
-    pub fn from_micros(micros: u64) -> Self {
+    pub const fn from_micros(micros: u64) -> Self {
         Self {
-            ticks: conv::micros_to_ticks(micros, C::ticks_per_second()),
+            ticks: conv::micros_to_ticks(micros, C::TICKS_PER_SECOND),
             clock: PhantomData,
         }
     }
 
     /// Create a duration from a milliseconds count.
-    pub fn from_millis(millis: u64) -> Self {
+    pub const fn from_millis(millis: u64) -> Self {
         Self {
-            ticks: conv::millis_to_ticks(millis, C::ticks_per_second()),
+            ticks: conv::millis_to_ticks(millis, C::TICKS_PER_SECOND),
             clock: PhantomData,
         }
     }
 
     /// Create a duration from a seconds count.
-    pub fn from_secs(secs: u64) -> Self {
+    pub const fn from_secs(secs: u64) -> Self {
         Self {
-            ticks: conv::secs_to_ticks(secs, C::ticks_per_second()),
+            ticks: conv::secs_to_ticks(secs, C::TICKS_PER_SECOND),
             clock: PhantomData,
         }
     }
 
     /// Return tick count.
-    pub fn to_ticks(&self) -> u64 {
+    pub const fn to_ticks(&self) -> u64 {
         self.ticks
     }
 
     /// Return duration as microseconds.
-    pub fn to_micros(&self) -> u64 {
-        conv::ticks_to_micros(self.ticks, C::ticks_per_second())
+    pub const fn to_micros(&self) -> u64 {
+        conv::ticks_to_micros(self.ticks, C::TICKS_PER_SECOND)
     }
 
     /// Return duration as milliseconds.
-    pub fn to_millis(&self) -> u64 {
-        conv::ticks_to_millis(self.ticks, C::ticks_per_second())
+    pub const fn to_millis(&self) -> u64 {
+        conv::ticks_to_millis(self.ticks, C::TICKS_PER_SECOND)
     }
 
     /// Return duration as seconds.
-    pub fn to_secs(&self) -> u64 {
-        conv::ticks_to_secs(self.ticks, C::ticks_per_second())
+    pub const fn to_secs(&self) -> u64 {
+        conv::ticks_to_secs(self.ticks, C::TICKS_PER_SECOND)
     }
 
     /// Add durations, return a new duration or None in case of overflow.

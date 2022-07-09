@@ -11,17 +11,13 @@ Provide a clock source by implementing the `ClockTick` trait on a type.
 ```rust
 use emtick::ClockTick;
 
-pub const SYSTICK_FREQ: u32 = 1000;
-
 pub struct Clock1k;
 
 impl ClockTick for Clock1k {
+    const TICKS_PER_SECOND: u64 = 1000;
+
     fn ticks() -> u64 {
         systick::ticks()
-    }
-
-    fn ticks_per_second() -> u64 {
-        SYSTICK_FREQ as u64
     }
 }
 ```

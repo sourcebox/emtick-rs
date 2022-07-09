@@ -11,9 +11,9 @@ pub use instant::Instant;
 
 /// Trait to be implemented by clock sources.
 pub trait ClockTick {
+    /// Number of ticks per second.
+    const TICKS_PER_SECOND: u64;
+
     /// Return elapsed ticks since start.
     fn ticks() -> u64;
-
-    /// Return the number of ticks per second.
-    fn ticks_per_second() -> u64;
 }

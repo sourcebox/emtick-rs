@@ -70,7 +70,7 @@ where
     }
 
     /// Create an instant from a ticks count since boot.
-    pub fn from_ticks(ticks: u64) -> Self {
+    pub const fn from_ticks(ticks: u64) -> Self {
         Self {
             ticks,
             clock: PhantomData,
@@ -78,47 +78,47 @@ where
     }
 
     /// Create an instant from a microseconds count since boot.
-    pub fn from_micros(micros: u64) -> Self {
+    pub const fn from_micros(micros: u64) -> Self {
         Self {
-            ticks: conv::micros_to_ticks(micros, C::ticks_per_second()),
+            ticks: conv::micros_to_ticks(micros, C::TICKS_PER_SECOND),
             clock: PhantomData,
         }
     }
 
     /// Create an instant from a milliseconds count since boot.
-    pub fn from_millis(millis: u64) -> Self {
+    pub const fn from_millis(millis: u64) -> Self {
         Self {
-            ticks: conv::millis_to_ticks(millis, C::ticks_per_second()),
+            ticks: conv::millis_to_ticks(millis, C::TICKS_PER_SECOND),
             clock: PhantomData,
         }
     }
 
     /// Create an instant from a seconds count since boot.
-    pub fn from_secs(secs: u64) -> Self {
+    pub const fn from_secs(secs: u64) -> Self {
         Self {
-            ticks: conv::secs_to_ticks(secs, C::ticks_per_second()),
+            ticks: conv::secs_to_ticks(secs, C::TICKS_PER_SECOND),
             clock: PhantomData,
         }
     }
 
     /// Return ticks count since boot.
-    pub fn to_ticks(&self) -> u64 {
+    pub const fn to_ticks(&self) -> u64 {
         self.ticks
     }
 
     /// Return microseconds count since boot.
-    pub fn to_micros(&self) -> u64 {
-        conv::ticks_to_micros(self.ticks, C::ticks_per_second())
+    pub const fn to_micros(&self) -> u64 {
+        conv::ticks_to_micros(self.ticks, C::TICKS_PER_SECOND)
     }
 
     /// Return milliseconds count since boot.
-    pub fn to_millis(&self) -> u64 {
-        conv::ticks_to_millis(self.ticks, C::ticks_per_second())
+    pub const fn to_millis(&self) -> u64 {
+        conv::ticks_to_millis(self.ticks, C::TICKS_PER_SECOND)
     }
 
     /// Return seconds count since boot.
-    pub fn to_secs(&self) -> u64 {
-        conv::ticks_to_secs(self.ticks, C::ticks_per_second())
+    pub const fn to_secs(&self) -> u64 {
+        conv::ticks_to_secs(self.ticks, C::TICKS_PER_SECOND)
     }
 
     /// Return duration between current instant and an earlier one.
