@@ -4,8 +4,12 @@ use crate::{ClockTick, Duration, Instant};
 
 /// Sleep for a duration.
 pub fn delay<C: ClockTick>(duration: Duration<C>) {
-    let sleep_until = Instant::<C>::now() + duration;
-    while Instant::<C>::now() < sleep_until {}
+    delay_until::<C>(Instant::<C>::now() + duration);
+}
+
+/// Sleep until an instant.
+pub fn delay_until<C: ClockTick>(instant: Instant<C>) {
+    while Instant::<C>::now() < instant {}
 }
 
 /// Sleep for a number of ticks.
