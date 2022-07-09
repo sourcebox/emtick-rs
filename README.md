@@ -2,6 +2,8 @@
 
 This `no_std` Rust crate provides `Instant` and `Duration` types for time-related calculations with a focus on embedded systems.
 
+`emtick` is greatly inspired by the [embassy](https://github.com/embassy-rs/embassy) time module but uses generic clock sources to eleminate dependencies. It also allows the use of multiple optimized clock sources for performance reasons.
+
 ## Usage Example
 
 Provide a clock source by implementing the `ClockTick` trait on a type.
