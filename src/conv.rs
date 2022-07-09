@@ -1,68 +1,83 @@
 //! Functions for conversions between ticks and natural time units.
 
-/// Convert microseconds to ticks. Panics on overflow.
+/// Convert microseconds to ticks.
 pub fn micros_to_ticks(micros: u64, ticks_per_second: u64) -> u64 {
-    if ticks_per_second == 1000000 {
-        micros
-    } else {
-        micros
-            .checked_mul(ticks_per_second)
-            .expect("Overflow when converting from microseconds to ticks.")
-            / 1000000
-    }
+    let (nom, denom) = match ticks_per_second {
+        1 => (1, 1000000),
+        10 => (1, 100000),
+        100 => (1, 10000),
+        1000 => (1, 1000),
+        10000 => (1, 100),
+        100000 => (1, 10),
+        1000000 => (1, 1),
+        10000000 => (10, 1),
+        100000000 => (100, 1),
+        _ => (ticks_per_second, 1000000),
+    };
+
+    ((micros as u128) * nom as u128 / denom) as u64
 }
 
-/// Convert milliseconds to ticks. Panics on overflow.
+/// Convert milliseconds to ticks.
 pub fn millis_to_ticks(millis: u64, ticks_per_second: u64) -> u64 {
-    if ticks_per_second == 1000 {
-        millis
-    } else {
-        millis
-            .checked_mul(ticks_per_second)
-            .expect("Overflow when converting from milliseconds to ticks.")
-            / 1000
-    }
+    let (nom, denom) = match ticks_per_second {
+        1 => (1, 1000),
+        10 => (1, 100),
+        100 => (1, 10),
+        1000 => (1, 1),
+        10000 => (10, 1),
+        100000 => (100, 1),
+        1000000 => (1000, 1),
+        10000000 => (10000, 1),
+        100000000 => (100000, 1),
+        _ => (ticks_per_second, 1000),
+    };
+
+    ((millis as u128) * nom as u128 / denom) as u64
 }
 
-/// Convert seconds to ticks. Panics on overflow.
+/// Convert seconds to ticks.
 pub fn secs_to_ticks(secs: u64, ticks_per_second: u64) -> u64 {
-    if ticks_per_second == 1 {
-        secs
-    } else {
-        secs.checked_mul(ticks_per_second)
-            .expect("Overflow when converting from seconds to ticks.")
-    }
+    secs * ticks_per_second
 }
 
-/// Convert ticks to microseconds. Panics on overflow.
+/// Convert ticks to microseconds.
 pub fn ticks_to_micros(ticks: u64, ticks_per_second: u64) -> u64 {
-    if ticks_per_second == 1000000 {
-        ticks
-    } else {
-        ticks
-            .checked_mul(1000000)
-            .expect("Overflow when converting from ticks to microseconds.")
-            / ticks_per_second
-    }
+    let (nom, denom) = match ticks_per_second {
+        1 => (1000000, 1),
+        10 => (100000, 1),
+        100 => (10000, 1),
+        1000 => (1000, 1),
+        10000 => (100, 1),
+        100000 => (10, 1),
+        1000000 => (1, 1),
+        10000000 => (1, 10),
+        100000000 => (1, 100),
+        _ => (1000000, ticks_per_second),
+    };
+
+    ((ticks as u128) * nom / denom as u128) as u64
 }
 
-/// Convert ticks to milliseconds. Panics on overflow.
+/// Convert ticks to milliseconds.
 pub fn ticks_to_millis(ticks: u64, ticks_per_second: u64) -> u64 {
-    if ticks_per_second == 1000 {
-        ticks
-    } else {
-        ticks
-            .checked_mul(1000)
-            .expect("Overflow when converting from ticks to milliseconds.")
-            / ticks_per_second
-    }
+    let (nom, denom) = match ticks_per_second {
+        1 => (1000, 1),
+        10 => (100, 1),
+        100 => (10, 1),
+        1000 => (1, 1),
+        10000 => (1, 10),
+        100000 => (1, 100),
+        1000000 => (1, 1000),
+        10000000 => (1, 10000),
+        100000000 => (1, 100000),
+        _ => (1000, ticks_per_second),
+    };
+
+    ((ticks as u128) * nom / denom as u128) as u64
 }
 
 /// Convert ticks to seconds.
 pub fn ticks_to_secs(ticks: u64, ticks_per_second: u64) -> u64 {
-    if ticks_per_second == 1 {
-        ticks
-    } else {
-        ticks / ticks_per_second
-    }
+    ticks / ticks_per_second
 }

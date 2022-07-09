@@ -58,12 +58,6 @@ In some cases conversion performance is optimized:
 
 Hint: if maximum performance is required for both milliseconds and microseconds conversions, use two separate optimized clock sources and create instants and durations with them appropriately.
 
-## Preventing Overflows
-
-There is a risk of integer overflow in intermediate calculations in some conversion functions. Whenever a conversion between ticks and natural time units is performed, this operation may panic on overflow. The most likely cause of an overflow is when convering an instant to an absolute microseconds value in a long-running application with a high tick count.
-
-In order to prevent overflows, it is recommended to use internal calculations e.g. by adding/subtracting instants and durations rather than converting these values to natural units first and using these values to do so. This is also recommended for performance reasons.
-
 ## Alternatives
 
 - [embedded-time](https://github.com/FluenTech/embedded-time/)

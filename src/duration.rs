@@ -69,7 +69,7 @@ where
         }
     }
 
-    /// Create a duration from a microseconds count. Panics on overflow.
+    /// Create a duration from a microseconds count.
     pub fn from_micros(micros: u64) -> Self {
         Self {
             ticks: conv::micros_to_ticks(micros, C::ticks_per_second()),
@@ -77,7 +77,7 @@ where
         }
     }
 
-    /// Create a duration from a milliseconds count. Panics on overflow.
+    /// Create a duration from a milliseconds count.
     pub fn from_millis(millis: u64) -> Self {
         Self {
             ticks: conv::millis_to_ticks(millis, C::ticks_per_second()),
@@ -85,7 +85,7 @@ where
         }
     }
 
-    /// Create a duration from a seconds count. Panics on overflow.
+    /// Create a duration from a seconds count.
     pub fn from_secs(secs: u64) -> Self {
         Self {
             ticks: conv::secs_to_ticks(secs, C::ticks_per_second()),
@@ -98,12 +98,12 @@ where
         self.ticks
     }
 
-    /// Return duration as microseconds. Panics on overflow.
+    /// Return duration as microseconds.
     pub fn to_micros(&self) -> u64 {
         conv::ticks_to_micros(self.ticks, C::ticks_per_second())
     }
 
-    /// Return duration as milliseconds. Panics on overflow.
+    /// Return duration as milliseconds.
     pub fn to_millis(&self) -> u64 {
         conv::ticks_to_millis(self.ticks, C::ticks_per_second())
     }
