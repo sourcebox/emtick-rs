@@ -99,33 +99,17 @@ where
 
     /// Return duration as microseconds. Panics on overflow.
     pub fn to_micros(&self) -> u64 {
-        let tps = C::ticks_per_second();
-        if tps == 1000000 {
-            self.ticks
-        } else {
-            self.ticks
-                .checked_mul(1000000)
-                .expect("Overflow when converting to microseconds.")
-                / tps
-        }
+        conv::ticks_to_micros(self.ticks, C::ticks_per_second())
     }
 
     /// Return duration as milliseconds. Panics on overflow.
     pub fn to_millis(&self) -> u64 {
-        let tps = C::ticks_per_second();
-        if tps == 1000 {
-            self.ticks
-        } else {
-            self.ticks
-                .checked_mul(1000)
-                .expect("Overflow when converting to milliseconds.")
-                / tps
-        }
+        conv::ticks_to_millis(self.ticks, C::ticks_per_second())
     }
 
     /// Return duration as seconds.
     pub fn to_secs(&self) -> u64 {
-        self.ticks / C::ticks_per_second()
+        conv::ticks_to_secs(self.ticks, C::ticks_per_second())
     }
 
     /// Add durations, return a new duration or None in case of overflow.
