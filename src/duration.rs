@@ -1,4 +1,4 @@
-//! Duration type representing a span of time.
+//! Duration type and associated functions.
 //!
 //! Based on <https://github.com/embassy-rs/embassy>
 
@@ -7,6 +7,7 @@ use core::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Sub, SubAssign};
 
 use crate::{conv, ClockTick};
 
+/// Duration type representing a span of time.
 #[derive(Debug)]
 pub struct Duration<C>
 where

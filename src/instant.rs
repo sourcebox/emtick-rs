@@ -1,4 +1,4 @@
-//! Instant type representing a moment in time.
+//! Instant type and associated functions.
 //!
 //! Based on <https://github.com/embassy-rs/embassy>
 
@@ -7,6 +7,7 @@ use core::ops::{Add, AddAssign, Sub, SubAssign};
 
 use crate::{conv, ClockTick, Duration};
 
+/// Instant type representing a moment in time.
 #[derive(Debug)]
 pub struct Instant<C>
 where
